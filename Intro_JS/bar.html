@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scatter Plot with Plotly.JS</title>
+    <title>Bar Chart with Plotly.JS</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 </head>
 <body>
@@ -17,7 +17,7 @@
             x: hlthfin1995.iso3,
             y: hlthfin1995.health_spending_pp,
             mode: 'markers',
-            type: 'scatter',
+            type: 'bar',
             name: '1995',
             text: hlthfin1995.location,
             textfont: {family:'Helvetica Neue'},
@@ -28,7 +28,7 @@
             x: hlthfin2005.iso3,
             y: hlthfin2005.health_spending_pp,
             mode: 'markers',
-            type: 'scatter',
+            type: 'bar',
             name: '2005',
             //text: hlthfin2005.location,
             textfont: {family:'Helvetica Neue'},
@@ -39,7 +39,7 @@
             x: hlthfin2015.iso3,
             y: hlthfin2015.health_spending_pp,
             mode: 'markers',
-            type: 'scatter',
+            type: 'bar',
             name: '2015',
             //text: hlthfin2015.location,
             textfont: {family:'Helvetica Neue'},
@@ -48,7 +48,7 @@
 
 var data = [trace1, trace2, trace3];
 var layout = {
-    title:'Scatter Plot of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
+    title:'Bar Chart of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
     height: 700,
     legend: {
     font: {
@@ -59,7 +59,7 @@ var layout = {
   },
   
   //paper_bgcolor: '#F4F4E2',
-  plot_bgcolor: '#F4F4E2'
+  plot_bgcolor: '#E1DEDA'
 };
 Plotly.newPlot('myDiv', data, layout);
     </script>
