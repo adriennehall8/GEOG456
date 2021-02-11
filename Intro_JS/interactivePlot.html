@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive charts with plotly.JS</title>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<style>
+    body {
+        background-color: gray;
+    }
+</style>
+<body>
+
+    <div id="myDiv"></div>
+    <div id="myDiv2"></div>
+    <button onclick="myFunction()">Change Chart Type</button>
+    <script src="./data/healthfin95.json"></script>
+    <script src="./data/healthfin05.json"></script>
+    <script src="./data/healthfin15.json"></script>
+    <script>
+        
+        var scatter = true;
+        var data = [];
+
+        myFunction = function(){
+            aTrace()
+            Function2()
+            Plotly.newPlot('myDiv', data, layout);
+            if(scatter == true){scatter = false}
+            else{scatter = true}
+            console.log(scatter)
+        }
+
+        aTrace = function(){
+            if(scatter){
+                console.log('scatter')
+                return 'scatter'}
+            console.log('bar')
+            return 'bar'
+        }
+
+        Function2 = function(){
+        var trace1 = {
+            x: hlthfin1995.iso3,
+            y: hlthfin1995.health_spending_pp,
+            mode: 'markers',
+            type: aTrace(),
+            name: '1995',
+            textfont: {family:'Georgia, serif'},
+            marker: {color: '#0029FA'}
+        };
+        var trace2 = {
+            x: hlthfin2005.iso3,
+            y: hlthfin2005.health_spending_pp,
+            mode: 'markers',
+            type: aTrace(),
+            name: '2005',
+            textfont: {family:'Georgia, serif'},
+            marker: {color: '#7ED955'},
+        };
+        var trace3 = {
+            x: hlthfin2015.iso3,
+            y: hlthfin2015.health_spending_pp,
+            mode: 'markers',
+            type: aTrace(),
+            name: '2015',
+            text: hlthfin2015.location,
+            textfont: {family:'Georgia, serif'},
+            marker: {color: '#11054E'},
+        };
+        data = [trace1, trace2, trace3];}
+
+        var layout = {
+            title:'Health Spending Per Person (1995, 2005, & 2015)',
+            height: 700,
+            legend: {
+                font: {
+                family: 'Georgia, serif',
+                size: 16,
+                color: 'black',
+                }
+            },
+            paper_bgcolor: '#D4DBF5',
+            plot_bgcolor: '#D4DBF5'
+        };
+        myFunction()
+
+    </script>
+    <div>
+    <h5>Source: Global Burden of Disease Collaborative Network. Global Health Spending 1995-2017. Seattle, United States of America: Institute for Health Metrics and Evaluation (IHME), 2020. </a> 
+    <a href="http://ghdx.healthdata.org/record/ihme-data/global-health-spending-1995-2017"> Link to Dataset </a><br>
+    </div>
+
+</body>
+
+</html>
