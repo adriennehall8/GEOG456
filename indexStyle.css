@@ -1,0 +1,30 @@
+
+body {
+    background-color:lightcyan;
+
+}
+
+#daDarkBox {
+    position: absolute;
+    top:25%;
+    width: 100%;
+    height: 50%;
+    background-color: darkcyan;
+
+}
+
+.daLightBox {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    background-color: lightseagreen;
+}
+
+h1 {
+    cursor: cell;
+    position: relative;
+    text-align: center;
+    top: 25%;
+}

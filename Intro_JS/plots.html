@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scatter Plot with Plotly.JS</title>
+    <title>Basic charts with plotly.JS</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 </head>
 <body>
@@ -48,73 +48,79 @@
             marker: {color: '#E82CA4'},
         };
 
-var data = [trace1, trace2, trace3];
-var layout = {
-    title:'Scatter Plot of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
-    height: 700,
-    legend: {
-    font: {
-      family: 'Helvetica Neue',
-      size: 16,
-      color: 'black',
-    }
-  },
-  
-  //paper_bgcolor: '#F4F4E2',
-  plot_bgcolor: '#F4F4E2'
-};
-Plotly.newPlot('myDiv', data, layout);
-
-var trace4 = {
-            x: hlthfin1995.iso3,
-            y: hlthfin1995.health_spending_pp,
-            mode: 'markers',
-            type: 'bar',
-            name: '1995',
-            text: hlthfin1995.location,
-            textfont: {family:'Helvetica Neue'},
-            marker: {color: '#15DDE8'}
+        var data = [trace1, trace2, trace3];
+        var layout = {
+            title:'Scatter Plot of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
+            height: 700,
+            legend: {
+            font: {
+            family: 'Helvetica Neue',
+            size: 16,
+            color: 'black',
+            }
+        },
+        
+        //paper_bgcolor: '#F4F4E2',
+        plot_bgcolor: '#F4F4E2'
         };
-            
-        var trace5 = {
-            x: hlthfin2005.iso3,
-            y: hlthfin2005.health_spending_pp,
-            mode: 'markers',
-            type: 'bar',
-            name: '2005',
-            //text: hlthfin2005.location,
-            textfont: {family:'Helvetica Neue'},
-            marker: {color: '#E8CD2C'},
-        };
+        Plotly.newPlot('myDiv', data, layout);
 
-        var trace6 = {
-            x: hlthfin2015.iso3,
-            y: hlthfin2015.health_spending_pp,
-            mode: 'markers',
-            type: 'bar',
-            name: '2015',
-            //text: hlthfin2015.location,
-            textfont: {family:'Helvetica Neue'},
-            marker: {color: '#E82CA4'},
-        };
+        var trace4 = {
+                    x: hlthfin1995.iso3,
+                    y: hlthfin1995.health_spending_pp,
+                    mode: 'markers',
+                    type: 'bar',
+                    name: '1995',
+                    text: hlthfin1995.location,
+                    textfont: {family:'Helvetica Neue'},
+                    marker: {color: '#15DDE8'}
+                };
+                    
+                var trace5 = {
+                    x: hlthfin2005.iso3,
+                    y: hlthfin2005.health_spending_pp,
+                    mode: 'markers',
+                    type: 'bar',
+                    name: '2005',
+                    //text: hlthfin2005.location,
+                    textfont: {family:'Helvetica Neue'},
+                    marker: {color: '#E8CD2C'},
+                };
 
-var data2 = [trace4, trace5, trace6];
-var layout2 = {
-    title:'Bar Chart of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
-    height: 700,
-    legend: {
-    font: {
-      family: 'Helvetica Neue',
-      size: 16,
-      color: 'black',
-    }
-  },
-  
-  //paper_bgcolor: '#F4F4E2',
-  plot_bgcolor: '#E1DEDA'
-};
-Plotly.newPlot('myDiv2', data2, layout2);
+                var trace6 = {
+                    x: hlthfin2015.iso3,
+                    y: hlthfin2015.health_spending_pp,
+                    mode: 'markers',
+                    type: 'bar',
+                    name: '2015',
+                    //text: hlthfin2015.location,
+                    textfont: {family:'Helvetica Neue'},
+                    marker: {color: '#E82CA4'},
+                };
+
+        var data2 = [trace4, trace5, trace6];
+        var layout2 = {
+            title:'Bar Chart of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
+            height: 700,
+            legend: {
+            font: {
+            family: 'Helvetica Neue',
+            size: 16,
+            color: 'black',
+            }
+        },
+        
+        //paper_bgcolor: '#F4F4E2',
+        plot_bgcolor: '#E1DEDA'
+        };
+        Plotly.newPlot('myDiv2', data2, layout2);
 
     </script>
+
+<!-- how do I add this citation to the bottom of this page?
+    <h2>Source: Global Burden of Disease Collaborative Network. Global Health Spending 1995-2017. Seattle, United States of America: Institute for Health Metrics and Evaluation (IHME), 2020.</a> 
+    <a href="http://ghdx.healthdata.org/record/ihme-data/global-health-spending-1995-2017"> Link to Dataset </a><br>
+ -->
 </body>
+
 </html>
