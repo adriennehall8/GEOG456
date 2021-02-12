@@ -6,8 +6,20 @@
     <title>Basic charts with plotly.JS</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 </head>
+<style>
+    body {background-color: rgb(242,242,242);}
+    h4 {
+            font-family:'Gill Sans';
+            font-weight: lighter;
+            font-size: x-large;
+            color:rgb(16,38,32);
+            cursor: text;
+            position: relative;
+            text-align: left;
+        }
+</style>
 <body>
-
+    <h4>global health spending</h4>
     <div id="myDiv"></div>
     <div id="myDiv2"></div>
     
@@ -22,7 +34,7 @@
             type: 'scatter',
             name: '1995',
             text: hlthfin1995.location,
-            textfont: {family:'Helvetica Neue'},
+            textfont: {family:'Gill Sans'},
             marker: {color: '#15DDE8'}
         };
             
@@ -33,7 +45,7 @@
             type: 'scatter',
             name: '2005',
             //text: hlthfin2005.location,
-            textfont: {family:'Helvetica Neue'},
+            textfont: {family:'Gill Sans'},
             marker: {color: '#E8CD2C'},
         };
 
@@ -44,24 +56,23 @@
             type: 'scatter',
             name: '2015',
             //text: hlthfin2015.location,
-            textfont: {family:'Helvetica Neue'},
+            textfont: {family:'Gill Sans'},
             marker: {color: '#E82CA4'},
         };
 
         var data = [trace1, trace2, trace3];
         var layout = {
-            title:'Scatter Plot of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
+            title:'Per-Capital Health Spending (1995, 2005, & 2015)',
             height: 700,
             legend: {
             font: {
-            family: 'Helvetica Neue',
+            family: 'Gill Sans',
             size: 16,
             color: 'black',
             }
         },
-        
-        //paper_bgcolor: '#F4F4E2',
-        plot_bgcolor: '#F4F4E2'
+        //paper_bgcolor: '#FBEEC1',
+        plot_bgcolor: '#E0DFDE'
         };
         Plotly.newPlot('myDiv', data, layout);
 
@@ -72,7 +83,7 @@
                     type: 'bar',
                     name: '1995',
                     text: hlthfin1995.location,
-                    textfont: {family:'Helvetica Neue'},
+                    textfont: {family:'Gill Sans'},
                     marker: {color: '#15DDE8'}
                 };
                     
@@ -83,7 +94,7 @@
                     type: 'bar',
                     name: '2005',
                     //text: hlthfin2005.location,
-                    textfont: {family:'Helvetica Neue'},
+                    textfont: {family:'Gill Sans'},
                     marker: {color: '#E8CD2C'},
                 };
 
@@ -94,33 +105,31 @@
                     type: 'bar',
                     name: '2015',
                     //text: hlthfin2015.location,
-                    textfont: {family:'Helvetica Neue'},
+                    textfont: {family:'Gill Sans'},
                     marker: {color: '#E82CA4'},
                 };
 
         var data2 = [trace4, trace5, trace6];
         var layout2 = {
-            title:'Bar Chart of Country-Level Health Spending Per Person (1995, 2005, & 2015)',
+            title:'Per-Capital Health Spending (1995, 2005, & 2015)',
             height: 700,
             legend: {
             font: {
-            family: 'Helvetica Neue',
+            family: 'Gill Sans',
             size: 16,
             color: 'black',
             }
         },
-        
-        //paper_bgcolor: '#F4F4E2',
-        plot_bgcolor: '#E1DEDA'
+        //paper_bgcolor: '#FBEEC1',
+        plot_bgcolor: '#E0DFDE'
         };
         Plotly.newPlot('myDiv2', data2, layout2);
 
     </script>
-
-<!-- how do I add this citation to the bottom of this page?
-    <h2>Source: Global Burden of Disease Collaborative Network. Global Health Spending 1995-2017. Seattle, United States of America: Institute for Health Metrics and Evaluation (IHME), 2020.</a> 
-    <a href="http://ghdx.healthdata.org/record/ihme-data/global-health-spending-1995-2017"> Link to Dataset </a><br>
- -->
+     <div>
+        <h5>Source: Global Burden of Disease Collaborative Network. Global Health Spending 1995-2017. Seattle, United States of America: Institute for Health Metrics and Evaluation (IHME), 2020. </a> 
+        <a href="http://ghdx.healthdata.org/record/ihme-data/global-health-spending-1995-2017"> Link to Dataset </a><br>
+        </div>
 </body>
 
 </html>

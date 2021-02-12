@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Flowering Cherry Trees</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+        integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+        crossorigin=""></script>
+        <script src="./data/flowering_cherries_4326.js" ></script>
+    </head>
+    <style>
+        body {background-color: rgb(242,242,242);}
+        h4 {
+            font-family:'Gill Sans';
+            font-weight: lighter;
+            font-size: x-large;
+            color:rgb(16,38,32);
+            cursor: text;
+            position: relative;
+            text-align: left;
+        }
+    </style>
+    
+    <body>
+        <h4>carolina flowering cherry trees</h4>
+        
+    <div id="mapid"></div>
+    <style>
+        #mapid{ width: 1000px; height: 600px; }
+    </style>
+    <script>  
+
+    var map = L.map('mapid').setView([35.912018360955116, -79.05109648592772], 17); 
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
+
+    L.marker([35.911271, -79.049807]).addTo(map)
+        .bindPopup('UNC Geography Department')
+        //.openPopup();
+    
+    var treeIcon = L.icon({ 
+        iconUrl: 'https://cdn0.iconfinder.com/data/icons/hanami-party/512/HANAMI_ICONS_SVG-06-512.png',   
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+        });
+    
+    var customPopup = "Flowering Cherry Tree<br/><img src='https://bloximages.newyork1.vip.townnews.com/greensboro.com/content/tncms/assets/v3/editorial/0/4a/04a1d550-16d6-5c9a-a203-a1b96ee737d9/5c994d56a4bc9.image.jpg?resize=1200%2C900' width='100px'/>";
+
+    L.geoJSON(trees, {   // a
+    pointToLayer: function (feature, latlng) { // b
+    return L.marker(latlng, {icon: treeIcon});}}) // c
+    .bindPopup(customPopup) // d
+    .addTo(map); // 
+    </script>
+    </body>
+</html>
