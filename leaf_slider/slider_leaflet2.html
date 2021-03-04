@@ -72,25 +72,24 @@
         <script src="./shapefiles/NC.geojson" ></script>
         <script src="./shapefiles/NC_counties_simplified.geojson" ></script>
         <script src="./shapefiles/properties.geojson" ></script>
-        <script src="./properties.js" ></script>
+        <script src="./shapefiles/properties2.geojson" ></script>
 
     </head>
     <body>
     <h2>National Housing Preservation Database: 
         North Carolina Affordable Housing Properties with Active and Inconclusive Status</h2>
-    <h4>Slide the button to see NC affordable housing properties based on the property's subsidy start date </h4><br>
-    <a>*Please excuse the errors in how the slider is interpreting the date value*</a>
+    <h4>Slide the button to see NC affordable housing properties based on the subsidy start date </h4><br>
     
     <div>
     <div class="slidecontainer">
-        <input type="range" min="1" max="2061" value="1" class="slider" id="myRange">
+        <input type="range" min="1987" max="2061" value="1" class="slider" id="myRange">
          Date: <span id="demo"></span>
     </div>
     </div>
     <script>
         var slider = document.getElementById("myRange");
         var output = document.getElementById("demo");
-        output.innerHTML = prop2.features[0].properties.EarliestStartDate;
+        output.innerHTML = prop.features[0].properties.StartYear;
         //output.innerHTML = slider.value; // Display the default slider value
         //Update the current slider value (each time you drag the slider handle)
 
@@ -111,7 +110,15 @@
 
     //choosing whether to display the county boundaries or the state boundary
     //L.geoJSON(NC).addTo(map);
-    L.geoJson(counties).addTo(map);
+    var count = L.geoJSON(counties).addTo(map);
+    var state = L.geoJSON(NC).addTo(map);
+
+    var base = {
+        "NC County Boundaries": count,
+        "NC State Boundary": state
+    }
+
+    L.control.layers(base).addTo(map);
 
     // create custom apartment icon variable
     var housingIcon = L.icon({
@@ -120,7 +127,7 @@
         popupAnchor: [0,0] // where the icon is located relative to the lat lon of the point. 
         });
     
-    var points = L.geoJSON(prop2.features[0], {
+    var points = L.geoJSON(prop.features[0], {
         pointToLayer: function (feature, latlng) { 
         return L.marker(latlng,{icon:housingIcon});}
         }).addTo(map);
@@ -131,11 +138,11 @@
  // **********  THIS SECTION IS WHERE MOST CHANGES ARE HAPPENING IN THE JS 
     slider.oninput = function() {
           //alert(this.value); // example for debugging 
-          output.innerHTML = prop2.features[(this.value)].properties.EarliestStartDate; // get the date value and assign it to the text
+          output.innerHTML = prop.features[(this.value)].properties.StartYear; // get the date value and assign it to the text
           points.remove(); // remove the properties layer otherwise it will keep adding more and more elements
           //map.removeLayer(hm);
          // hm = L.marker([pts.features[this.value].properties.LAT,pts.features[this.value].properties.LON]).addTo(map);
-        points = L.geoJSON(prop2.features.slice(0,this.value), // select the values from 0 to the slider input
+        points = L.geoJSON(prop.features.slice(0,this.value), // select the values from 0 to the slider input
         {
         pointToLayer: function (feature, latlng) { 
         return L.marker(latlng, {icon:housingIcon});} 
