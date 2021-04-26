@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizing Affordable Housing</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+    <!-- Default Marker Cluster Stylesheets and JS from Leaflet  -->
+    <link rel="stylesheet" href="./dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="./dist/MarkerCluster.Default_edited.css" />
+    <script src="./dist/leaflet.markercluster-src.js"></script>
+    <script src="./dist/leaflet.markercluster.js"></script>
+
+    <!-- Sourcing the NHPD dataframe -->
+    <script type='text/javascript' src='./data/active_properties.json'></script>
+    <!-- sourcing my style sheet for this page -->
+    <link rel="stylesheet" href="myStyle.css" />
+
+    <!-- Sourcing the Chart.JS scripts, style, and chart data -->
+    <!-- colors using VIZ PALETTE by Elijah Meeks & Susie Lu -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.js"></script>
+    <link rel="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
+    <script src="./data/chart_data.js"></script>
+
+</head>
+<style></style>
+
+<body>
+<div>
+    <h1>Visualizing U.S. Affordable Housing</h1>
+    <h2>This interactive map shows housing properties with an active federal subsidy. The data is from the National Housing Preservation Database (NHPD), which is updated tri-annually. The data shown here was downloaded on April 15, 2021. Visit <a href="https://preservationdatabase.org/" target="_blank"> preservationdatabase.org</a> to register and access the database. </h2><br>
+    
+    <form id="myForm">
+        <select class="select-css" id="selectNumber">
+        <option>Select to filter by expiration year</option>
+        </select>
+    </form>
+    <br>
+
+    <!-- Here is the Leaflet map box -->
+    <div class="mapCenter" id="mapid"></div>
+        <style>
+            #mapid{position:relative; top:0; bottom:0; right:0; left:0; width:1000px; height:600px}
+        </style>
+    
+    <script type="text/javascript">
+
+        var map = L.map('mapid', {attributionControl: false}).setView([22, -22], 2) // attempting to show US and Pacific Territories
+
+        var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            minZoom:2,
+            maxZoom: 19
+        }).addTo(map);
+
+        var clusters = L.markerClusterGroup();
+
+        var myIcon = L.icon({ 
+            iconUrl: 'https://cdn1.iconfinder.com/data/icons/web-55/32/web_1-512.png',   
+            iconSize: [25,25],
+            popupAnchor: [0,0]
+        });
+
+        function myPopUp(i){
+            var popup = prop[i].Name +
+                '<br/><b>Address:</b> ' + prop[i].Add +
+                '<br/><b>City:</b> ' + prop[i].City +
+                '<br/><b>No. Active Subsidies:</b> ' + prop[i].Sub +
+                '<br/><b>Earliest End Date:</b> ' + prop[i].Early_End +
+                '<br/><b>Total Units:</b> ' + prop[i].Units +
+                '<br/><b>Target Population:</b> ' + prop[i].Target + 
+                '<br/><b>Owner Type:</b> ' + prop[i].Own_Typ + 
+                '<br/><b>Manager Type:</b> ' + prop[i].Mgr_Typ;
+            return popup;
+        }
+
+        var markerArray = [];
+
+        // Function that clears the map, selects the data by end year, and maps the data for that year
+        function selectByYear(aYear){
+            clusters.clearLayers()
+            removeMarker();
+            for (i=0; i<prop.length; i++){
+                if (prop[i].EE_Year == aYear){
+                    var a = L.marker([prop[i].Lat, prop[i].Lng], {icon: myIcon}).bindPopup(myPopUp(i));
+                    clusters.addLayer(a)
+                    markerArray.push(a)
+                }
+            }
+            map.addLayer(clusters);
+        }
+
+        // not sure that this function is needed since Leaflet has the clearLayers function and the markers will not remove without the clearLayers
+        function removeMarker(){
+            for (i=0; i<markerArray.length; i++){
+                markerArray[i].remove()
+            }
+        }
+
+        // this function was created to have all clusters show on the map
+        function allClusters(){
+            for (i=0; i<prop.length; i++){
+                var a = L.marker([prop[i].Lat, prop[i].Lng], {icon: myIcon}).bindPopup(myPopUp(i));
+                clusters.addLayer(a)
+                markerArray.push(a)
+            }
+            map.addLayer(clusters);
+        };
+        allClusters();
+
+        // this variable creates the options for dropdown list. Note: only 30 years are provided as options. The data ranges from 2021-2116. That many options would be excessive. This also adds an option "All Data" to the list.
+        var options = [];
+            for (i=2021; i<=2031; i++){
+                options.push(i)
+            }
+                options.push("All Data")
+         
+        var select = document.getElementById("selectNumber");
+        
+        for(var i = 0; i < options.length; i++) {
+            var opt = options[i];
+            var el = document.createElement("option");
+            el.textContent = opt;
+            el.value = opt;
+            select.appendChild(el);
+        }
+
+        // this code includes an if/else statement that parses the data by year from the dropdown or if "All Data" is selected then all data is shown on the map
+        document.getElementById("selectNumber").addEventListener("change", function(){
+            // console.log(this.value)
+            if (this.value=="All Data"){
+                clusters.clearLayers()
+                removeMarker();
+                allClusters();
+            } else {
+                var aYear = parseInt(this.value)
+                selectByYear(aYear)
+            }
+        })
+    </script>
+</div><br>
+
+<div class="flex-container">
+
+    <div class="flex-child left">
+        <h2>Total Subsidized Housing Units by State</h2>
+        <div>
+            <canvas id="chart1"></canvas>
+        </div>
+        <style>canvas {background-color:rgb(40,40,40)}</style>
+        <script>
+            Chart.defaults.font.size = 16;
+            Chart.defaults.font.family = 'Gill Sans'; 
+    
+            var chart1 = document.getElementById('chart1').getContext('2d');
+    
+            var tot_units_chart = new Chart(chart1, {
+                scaleFontColor: 'white',
+                type: 'bar',
+                data:{
+                    labels: states,
+                    datasets:[{
+                        label: 'Total Subsidized Housing Units',
+                        data: unitsByState,
+                        backgroundColor: '#FFD700',
+                        borderWidth: 1,
+                        borderColor: '#777',
+                        hoverBorderWidth:3,
+                        hoverBorderColor:'#FFB14E',
+                    }]}
+                });
+            </script>
+        </div><br>
+    </div>
+    
+    <div class="flex-child right">
+        <h2>Total Active Subsidies by State</h2>
+        <div>
+            <canvas id="chart2"></canvas>
+        </div>
+        <style>canvas {background-color:rgb(40,40,40)}</style>
+        <script>
+            Chart.defaults.font.size = 16;
+            Chart.defaults.font.family = 'Gill Sans';
+    
+            var chart2 = document.getElementById('chart2').getContext('2d');
+            
+            var subidies_chart = new Chart(chart2, {
+                type: 'bar',
+                data:{
+                    labels: states,
+                    datasets:[{
+                        label: 'Total Active Subsidies by State',
+                        fontSize: 16, 
+                        data: subsidiesByState,
+                        backgroundColor: '#cd34b5',
+                        borderWidth: 1,
+                        borderColor: '#777',
+                        hoverBorderWidth:3,
+                        hoverBorderColor:'#FFB14E'
+                    }]},
+                options: {},
+            });
+        </script>
+    </div><br>
+    
+    <div>
+        <br>
+        <h2>Count of Properties with Subsidies Expiring per Year per State (2021-2025)</h2>
+        <div class="container">
+            <canvas id="chart3"></canvas>
+        </div>
+        <script>
+            Chart.defaults.font.size = 16;
+            Chart.defaults.font.family = 'Gill Sans';
+
+            var chart3 = document.getElementById('chart3').getContext('2d');
+
+            //I wanted to add a line graph of the totals by year to this chart but it didn't work out
+            var TotbyYeardata = [3161, 3147, 3224, 3352, 3363];
+            var ColorsbyYear = ["#fa8775", "#ea5f94", "#cd34b5", "#9d02d7", "#0000ff"];
+                
+            var propExpiringByYear_chart = new Chart(chart3, {
+                type: 'bar',
+                data: {
+                    labels: statesEndYear,
+                    datasets:[
+                        {
+                            label: '2021',
+                            fontSize: 12, 
+                            data: ending2021,
+                            backgroundColor: '#fa8775',
+                            borderWidth: 0,
+                            // borderColor: '#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#FFB14E'
+                        },
+                        {
+                            label: '2022',
+                            fontSize: 12, 
+                            data: ending2022,
+                            backgroundColor: '#ea5f94',
+                            borderWidth: 0,
+                            // borderColor: '#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#FFB14E'
+                        },
+                        {
+                            label: '2023',
+                            fontSize: 12, 
+                            data: ending2023,
+                            backgroundColor: '#cd34b5',
+                            borderWidth: 0,
+                            //borderColor: '#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#FFB14E'
+                        },
+                        {
+                            label: '2024',
+                            fontSize: 12, 
+                            data: ending2024,
+                            backgroundColor: '#9d02d7',
+                            borderWidth: 0,
+                            //borderColor: '#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#FFB14E'
+                        },
+                        {
+                            label: '2025',
+                            fontSize: 12, 
+                            data: ending2024,
+                            backgroundColor: '#0000ff',
+                            borderWidth: 0,
+                            //borderColor: '#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#FFB14E'
+                        },
+                    ]
+                }, 
+            });
+        </script>
+    </div><br>
+    </div>
+</body>
+</html>

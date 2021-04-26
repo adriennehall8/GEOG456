@@ -1,0 +1,29 @@
+body {background-color: rgb(242,242,242)}
+
+h4 {
+    font-family:'Gill Sans';
+    font-weight: normal;
+    font-size: 28pt;
+    color:rgb(16,38,32);
+    cursor: text;
+    position: relative;
+    text-align: center;
+}
+
+h5 {
+    font-family:'Montserrat';
+    font-size:larger;
+    color:rgb(16,38,32);
+    cursor: text;
+    position: relative;
+    text-align: center;
+}
+
+a {
+    font-family:'Montserrat';
+    font-size:large;
+    color:rgb(16,38,32);
+    cursor: text;
+    position: relative;
+    text-align: center;
+}

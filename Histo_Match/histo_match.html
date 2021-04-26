@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histogram Matching</title>
+    <link rel="stylesheet" href="histo.css"/>
+</head>
+<style>
+    .column {
+    float: left;
+    width: 50%;
+    /* padding:5px; */
+    }
+    /* Clear floats after image containers */
+    .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+    .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    }
+</style>
+
+<body>
+    <h4>histogram matching images of the port of long beach, ca</h4>
+    <a> Histogram matching is an image processing technique that allows you to alter an image so that it matches a specified histogram. In this application I transformed aerial view images and topoview maps from USGS to match the histogram of another image. This method is useful for clearly identifying landscape changes over time and for creating creative images.<a>
+        <br>
+        <br>
+
+    <h5 style="text-align:center;"> USGS Digital Orthophoto Quadrangles (DOQ) of the Port of Long Beach 2000 (left) and 2002 (right)</h5>
+    <div class="row">
+        <div class="column">
+            <a href="./PortofLB_DOQ/2000doq.jpg">
+                <img src="./PortofLB_DOQ/2000doq.jpg" alt="black and white aerial photo of long beach from 2000" style="width:33pc;height:33pc">
+            </a>
+        </div>
+
+        <div class="column">
+            <a href="./PortofLB_DOQ/2002doq.jpg">
+                <img src="./PortofLB_DOQ/2002doq.jpg" alt="infrared aerial photo of long beach" style="width:33pc;height:33pc">
+            </a>
+        </div>
+    </div><br>
+
+    <h5 style="text-align:center;"> Port of Long Beach 2000 DOQ matched to 2002 DOQ</h5>
+    <div class="row">
+        <div class="column">
+            <a href="./PortofLB_DOQ/2000_matched.jpg">
+                <img src="./PortofLB_DOQ/2000_matched.jpg" alt="black and white image matched to infrared" style="width:33pc;height:33pc">
+            </a>
+        </div>
+    
+        <div class="column">
+            <a href="./PortofLB_DOQ/2002doq.jpg">
+                <img src="./PortofLB_DOQ/2002doq.jpg" alt="infrared aerial photo of long beach" style="width:33pc;height:33pc">
+            </a>
+            </div>
+        </div><br>
+    
+    <h5> USGS Topographical Map of the Port of Long Beach (1964)</h5>
+    <a class="center" href="./LBTopo_1964/1964.jpg">
+        <img src="./LBTopo_1964/1964.jpg" alt="Topographical map of long beach from 1964" class="center" style="height:33pc">
+    </a>
+    
+    <h5 style="text-align:center;"> Jacob Lawrence, Bar and Grill, 1941, gouache on paper, Smithsonian American Art Museum, Bequest of Henry Ward Ranger through the National Academy of Design, 2010.52</h5>
+    <a class="center" href="./LBTopo_1964/Lawrence1941_bar&grill.jpeg">
+        <img src="./LBTopo_1964/Lawrence1941_bar&grill.jpeg" alt="Jacob Lawrence Bar & Grill Painting 1941" style="width:25pc;height:25pc">
+    </a>
+    
+    <h5 style="text-align:center;"> 1964 Topomap matched to Lawrence (1941)</h5>
+    <a class="center" href="./LBTopo_1964/1964_match.jpg">
+        <img src="./LBTopo_1964/1964_match.jpg" alt="black and white image matched to infrared" style="height:33pc">
+    </a><br>
+            
+
+<div>
+    <a class="center"> This exercise was completed using Google Colab and python code courtesy of <a class="center" href="https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_histogram_matching.html"> scikit-image.</a> <a class="center"> Aerial images and topographical maps courtesy of USGS Earth Explorer and USGS TopoView.</a>
+</div>
+    
+</body>
+</html>
