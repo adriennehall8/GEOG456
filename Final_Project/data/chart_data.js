@@ -1,4 +1,4 @@
-//literally the least efficient way to do this but I sorted, filtereed, and aggregated the data in excel to manually create these simple arrays.
+//literally the least efficient way to do this but I sorted, filtered, and aggregated the data in excel to manually create these simple arrays.
 
 //states with NHPD properties - array length = 55
 var states = ["AK", "AL","AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WP", "WV", "WY"];
@@ -10,7 +10,7 @@ var unitsByState = [7449, 95384, 53318, 50250, 469714, 77775, 77031, 38117, 1466
 var subsidiesByState = [271, 2168, 1774, 1161, 9512, 1765, 1526, 459, 416, 5408, 3281, 339, 1634, 713, 3699, 2852, 1354, 2351, 2123, 3763, 1907, 1030, 3319, 2842, 3130, 8, 1699, 570, 3950, 498, 1111, 772, 2900, 630, 742, 7381, 5450, 1553, 1553, 3722, 805, 2182, 725, 2529, 5170, 880, 2382, 719, 2770, 2667, 1, 985, 324];
 
 //these variables capture the number of properties with an expiring subsidy by state by earliest end year
-// will only include the next 5 years
+//only included the next 5 years because of the tedious way I went about this
 
 // in this case the same 51 states had properties expiring each year between 2021-2025 so I can use one state array for the 5 years
 var statesEndYear = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY","LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE","NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
