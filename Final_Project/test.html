@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Cluster Tutorial</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+    <!-- Default Marker Cluster Stylesheets and JS from Leaflet  -->
+    <link rel="stylesheet" href="./dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="./dist/MarkerCluster.Default.css" />
+    <script src="./dist/leaflet.markercluster-src.js"></script>
+    <script src="./dist/leaflet.markercluster.js"></script>
+    <!-- Sourcing the NHPD dataframe -->
+    <script type='text/javascript' src='./data/active_properties.json'></script>
+</head>
+<style>
+    body {
+        background-color: rgb(18,18,18);
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 1.5%;
+        padding-right: 1.5%;
+    }
+
+    h1 {
+        font-family:'Gill Sans', sans-serif;
+        font-weight: normal;
+        font-size: 28pt;
+        color:rgb(255,255,255);
+        cursor: text;
+        position: relative;
+        text-align: center;
+    }
+
+    .mapCenter {
+        margin: auto;
+        width: 100%;
+        border: 2px solid black;
+        padding: 10px;
+    }
+</style>
+<body>
+    <h1>My Leaflet Cluster Map</h1>
+    <form id="myForm">
+        <select id="selectNumber">
+        <option>Select to filter by expiration year</option>
+        </select>
+    </form>
+    <br>
+    <!-- Here is the Leaflet map box -->
+    <div class="mapCenter" id="mapid"></div>
+    <style>
+        #mapid{position:relative; width:100%; height:600px}
+    </style>
+    <script type="text/javascript">
+        var map = L.map('mapid', {attributionControl: false}).setView([22, -22], 2) // attempting to show US and Pacific Territories
+
+        var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            minZoom: 2,
+            maxZoom: 19
+        }).addTo(map);
+
+        var myIcon = L.icon({ 
+            iconUrl: 'https://cdn1.iconfinder.com/data/icons/web-55/32/web_1-512.png',   
+            iconSize: [25,25],
+            popupAnchor: [0,0]
+        });
+
+        function myPopUp(i){
+            var popup = prop[i].Name +
+                '<br/><b>Address:</b> ' + prop[i].Add +
+                '<br/><b>City:</b> ' + prop[i].City +
+                '<br/><b>No. Active Subsidies:</b> ' + prop[i].Sub +
+                '<br/><b>Earliest End Date:</b> ' + prop[i].Early_End +
+                '<br/><b>Total Units:</b> ' + prop[i].Units +
+                '<br/><b>Target Population:</b> ' + prop[i].Target + 
+                '<br/><b>Owner Type:</b> ' + prop[i].Own_Typ + 
+                '<br/><b>Manager Type:</b> ' + prop[i].Mgr_Typ;
+            return popup;
+        }
+
+        var clusters = L.markerClusterGroup();
+
+        //code for the drop down form
+        var options = [];
+        for (i=2021; i<=2031; i++){
+            options.push(i)
+        }
+            options.push("All Data")
+         
+        var select = document.getElementById("selectNumber");
+        
+        for(var i = 0; i < options.length; i++) {
+            var opt = options[i];
+            var el = document.createElement("option");
+            el.textContent = opt;
+            el.value = opt;
+            select.appendChild(el);
+        }
+        
+        var markerArray = [];
+
+        // Function that clears the map, selects the data by end year, and maps the data for that year
+        function selectByYear(aYear){
+            clusters.clearLayers()
+            for (i=0; i<prop.length; i++){
+                if (prop[i].EE_Year == aYear){
+                    var a = L.marker([prop[i].Lat, prop[i].Lng], {icon: myIcon}).bindPopup(myPopUp(i));
+                    clusters.addLayer(a)
+                    markerArray.push(a)
+                }
+            }
+            map.addLayer(clusters);
+        }
+
+        // this function was created to have all clusters show on the map
+        function allClusters(){
+            for (i=0; i<prop.length; i++){
+                var a = L.marker([prop[i].Lat, prop[i].Lng], {icon: myIcon}).bindPopup(myPopUp(i));
+                clusters.addLayer(a)
+                markerArray.push(a)
+            }
+            map.addLayer(clusters);
+        };
+        allClusters();
+
+        // this code includes an if/else statement that parses the data by year 
+        document.getElementById("selectNumber").addEventListener("change", function(){
+            // console.log(this.value)
+            if (this.value=="All Data"){
+                clusters.clearLayers()
+                allClusters();
+            } else {
+                var aYear = parseInt(this.value)
+                selectByYear(aYear)
+            }
+        })
+    </script>
+</body>
+</html>
